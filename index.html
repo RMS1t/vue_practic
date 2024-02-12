@@ -15,12 +15,16 @@
 
       <div class="product-image">
         <img :src="image" :alt="altText" />
-        <a :href="link">Like this</a>
+
 
       </div>
 
       <div class="product-info">
         <h1>{{ product }}</h1>
+        <div class="cart">
+          <p>Cart({{ cart }})</p>
+        </div>
+
 
         <p v-show="inStock">In Stock</p>
 
@@ -28,9 +32,23 @@
         <p v-if="inventory > 10">In stock</p>
         <p v-else-if="inventory <= 10 && inventory > 0">Almost sold out!</p>
         <p v-else>Out of stock</p>
+        <ul>
+          <li v-for="detail in details">{{ detail }}</li>
+        </ul>
+        <div v-for="variant in variants" :key="variant.variantId">
+          <p @mouseover="updateProduct(variant.variantImage)">
+            {{ variant.variantColor }}
+          </p>
+        </div>
 
+        <ul>
+          <li v-for="size in sizes">{{ size }}</li>
+        </ul>
+
+        <button v-on:click="addToCart">Add to cart</button>
+        <button v-on:click="removeToCart">rem. product</button>
       </div>
-
+      <a :href="link">Like this</a>
     </div>
   </div>
 
