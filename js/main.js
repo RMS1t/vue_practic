@@ -16,9 +16,7 @@ Vue.component( 'product', {
 
       <div class="product-info">
         <h1>{{ title }}</h1>
-        <div class="cart">
-          <p>Cart({{ cart }})</p>
-        </div>
+
 
         <div :class="[inStock,{ sharped_text: !inStock }]">
 
@@ -133,10 +131,12 @@ Vue.component( 'product', {
 
 
         addToCart() {
-            this.cart += 1
+            this.$emit('add-to-cart',
+            this.variants[this.selectedVariant].variantId );
         },
         removeToCart() {
-            this.cart -= 1
+            this.$emit('remove-to-cart',this.variants[this.selectedVariant].variantId);
+             ;
         }
 
     },
@@ -160,7 +160,26 @@ Vue.component( 'product-details',{
 let app = new Vue({
     el: '#app',
     data: {
-        premium: true
+        premium: true,
+        cart: []
+    },
+    methods: {
+        upCart(id) {
+            this.cart.push(id);
+        },
+        downCart(id) {
+            this.cart= this.del_by_id(this.cart, id);
+        },
+        del_by_id(arr,id){
+            for ( let i= 0; i< arr.length; i++){
+                if (arr[i] === id){
+                    arr.splice(i,1)
+                }
+            }
+            return arr
+        }
+
     }
+
 
 })
