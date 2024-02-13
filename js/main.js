@@ -130,19 +130,17 @@ Vue.component( 'product', {
 
 
     },
+    created() {
+        eventBus.$on('review-submitted', function (productReview) {
+            this.reviews.push(productReview)
+        }.bind(this))
+    },
 
     methods: {
         updateProduct(index) {
             this.selectedVariant = index;
             console.log(index);
         },
-        mounted() {
-            eventBus.$on('review-submitted', function (productReview) {
-                this.reviews.push(productReview)
-            }.bind(this))
-        }
-        ,
-
         addToCart() {
             this.$emit('add-to-cart',
             this.variants[this.selectedVariant].variantId );
